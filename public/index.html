@@ -1,8 +1,160 @@
 <!DOCTYPE html>
-<html>
-<head></head>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		@font-face {
+		    /* font-properties */
+		    font-family: pictos;
+		    src:url('asset/font/6NUO8FuJNQ.woff'); /* IE9 */
+		}
+		#keyBoard{
+			width: 1135px;
+    		margin: 0 auto;
+		}
+		.article{
+			position: relative;
+			width: 1135px;
+			margin:0 auto;
+		}
+		.words{
+			font-size: 35px;
+			float: left;
+			font-family: "pictos";
+			margin-top: 25px;
+			color: #757575;
+		}
+		.words .letter{
+			width: 21px;
+			height: 46px;
+			margin: 0px;
+			padding: 0px;
+			display: block;
+			float: left;
+			outline: 1px solid white;
+		}
+		.token_unit_val{
+		    color: #0e630e;
+    		background: #e7fbd3;
+		}
+		.token_unit_err{
+			color: darkred;
+    		background: pink;
+		}
+		#subscript{
+			position: absolute;
+			display: block;
+			width: 21px;
+			height: 71px;
+			margin-top: 69px;
+			margin-left: 281px;
+			border-bottom: 3px solid #0a6bf9;
+		}
+	</style>
+</head>
 <body>
-	<div id="keyboard" style="width: 685px;">
+	<div class="article" id="app">
+		<span id="subscript"></span>
+		<div class="words" v-for="item in article">
+			<span class="letter" v-for="val in item">{{val.letter}}</span>
+		</div>
+		<!-- <div class="words">
+			<span class="letter token_unit_err">w</span>
+			<span class="letter token_unit_err">h</span>
+			<span class="letter token_unit_val">a</span>
+			<span class="letter token_unit_val">t</span>
+			<span class="letter token_unit_val"></span>
+		</div>
+		<div class="words">
+			<span class="letter">a</span>
+			<span class="letter">r</span>
+			<span class="letter">e</span>
+			<span class="letter"></span>
+		</div>
+		<div class="words">
+			<span class="letter">y</span>
+			<span class="letter">o</span>
+			<span class="letter">u</span>
+			<span class="letter"></span>
+		</div>
+		<div class="words">
+			<span class="letter">d</span>
+			<span class="letter">o</span>
+			<span class="letter">i</span>
+			<span class="letter">n</span>
+			<span class="letter">g</span>
+			<span class="letter">?</span>
+			<span class="letter"></span>
+		</div>
+
+
+		<div class="words">
+			<span class="letter">a</span>
+			<span class="letter">r</span>
+			<span class="letter">e</span>
+			<span class="letter"></span>
+		</div>
+		<div class="words">
+			<span class="letter">y</span>
+			<span class="letter">o</span>
+			<span class="letter">u</span>
+			<span class="letter"></span>
+		</div>
+		<div class="words">
+			<span class="letter">d</span>
+			<span class="letter">o</span>
+			<span class="letter">i</span>
+			<span class="letter">n</span>
+			<span class="letter">g</span>
+			<span class="letter">?</span>
+			<span class="letter"></span>
+		</div>
+		<div class="words">
+			<span class="letter">a</span>
+			<span class="letter">r</span>
+			<span class="letter">e</span>
+			<span class="letter"></span>
+		</div>
+		<div class="words">
+			<span class="letter">y</span>
+			<span class="letter">o</span>
+			<span class="letter">u</span>
+			<span class="letter"></span>
+		</div>
+		<div class="words">
+			<span class="letter">d</span>
+			<span class="letter">o</span>
+			<span class="letter">i</span>
+			<span class="letter">n</span>
+			<span class="letter">g</span>
+			<span class="letter">?</span>
+			<span class="letter"></span>
+		</div>
+		<div class="words">
+			<span class="letter">a</span>
+			<span class="letter">r</span>
+			<span class="letter">e</span>
+			<span class="letter"></span>
+		</div>
+		<div class="words">
+			<span class="letter">y</span>
+			<span class="letter">o</span>
+			<span class="letter">u</span>
+			<span class="letter"></span>
+		</div>
+		<div class="words">
+			<span class="letter">d</span>
+			<span class="letter">o</span>
+			<span class="letter">i</span>
+			<span class="letter">n</span>
+			<span class="letter">g</span>
+			<span class="letter">?</span>
+			<span class="letter"></span>
+		</div> -->
+	</div>
+
+	<div id="keyBoard">
 		<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 683.3 254" style="enable-background:new 0 0 683.3 254;" xml:space="preserve">
 			<style type="text/css">
 				.st0{fill:none;stroke:#777777;stroke-width:0.5;stroke-miterlimit:10;}
@@ -197,10 +349,8 @@
 			</g>
 		</svg>
 	</div>
-	<div id="hand">
-		
-	</div>
-	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+	<script src="asset/js/jquery.min.js"></script>
+	<script src="asset/js/vue.min.js"></script>
 	<script>
 		var $keyText = $('#letters > text');
 		var keyVal = [];
@@ -254,7 +404,153 @@
 		}
 	</script>
 	<script>
-		
+		var app = new Vue({
+			el:'#app',
+			data:{
+				article:[
+					[
+						{
+							letter:'w',
+							input:null,
+							status:null,
+						},
+						{
+							letter:'h',
+							input:null,
+							status:null,
+						},
+						{
+							letter:'a',
+							input:null,
+							status:null,
+						},
+						{
+							letter:'t',
+							input:null,
+							status:null,
+						},
+						{
+							letter:'',
+							input:null,
+							status:null,
+						},
+					],
+					[
+						{
+							letter:'a',
+							input:null,
+							status:null,
+						},
+						{
+							letter:'r',
+							input:null,
+							status:null,
+						},
+						{
+							letter:'e',
+							input:null,
+							status:null,
+						},
+						{
+							letter:'',
+							input:null,
+							status:null,
+						},
+					],
+					[
+						{
+							letter:'y',
+							input:null,
+							status:null,
+						},
+						{
+							letter:'o',
+							input:null,
+							status:null,
+						},
+						{
+							letter:'u',
+							input:null,
+							status:null,
+						},
+						{
+							letter:'',
+							input:null,
+							status:null,
+						},
+					],
+					[
+						{
+							letter:'d',
+							input:null,
+							status:null,
+						},
+						{
+							letter:'o',
+							input:null,
+							status:null,
+						},
+						{
+							letter:'i',
+							input:null,
+							status:null,
+						},
+						{
+							letter:'n',
+							input:null,
+							status:null,
+						},
+						{
+							letter:'g',
+							input:null,
+							status:null,
+						},
+						{
+							letter:'?',
+							input:null,
+							status:null,
+						},
+						{
+							letter:'',
+							input:null,
+							status:null,
+						},
+					],
+				],
+				letterIndex:0,
+				wordIndex:0,
+			},
+			methods:{
+				correct:function() {
+					//每次key down 都将letterIndex偏移量自增，并判断是否超出word长度，若超出，则增加wordIndex偏移量
+					//结束判断还有问题
+					if (this.letterIndex < this.article[this.wordIndex].length) {
+						return true;
+					}else{
+						this.wordIndex += 1;
+						this.letterIndex = 0;
+
+						return this.correct();
+					}
+				},
+				imputKey:function(ev) {
+					console.log(ev.keyCode);
+					if(this.correct()){
+						console.log(this.wordIndex,this.letterIndex,this.article[this.wordIndex][this.letterIndex]);
+						this.article[this.wordIndex][this.letterIndex].input = ev.keyCode;
+					}else{
+						console.log('error:单词下标偏移');
+					}
+					this.letterIndex += 1;
+				},
+			},
+			mounted:function() {
+				var vue = this;
+				window.onkeydown = function(ev){
+			        vue.imputKey(ev);
+			    }
+			},
+		});
 	</script>
 </body>
 </html>
