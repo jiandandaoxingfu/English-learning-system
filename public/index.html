@@ -55,9 +55,89 @@
 	<div class="article" id="app">
 		<span id="subscript" ref="subscript"></span>
 		<div class="words" v-for="item in article">
-			<span class="letter" v-for="val in item" ref="articleLetter">{{val.letter}}</span>
+			<span :class="{token_unit_val:val.status > 0,token_unit_err:val.status < 0}" class="letter" v-for="val in item" ref="articleLetter">{{val.letter}}</span>
 		</div>
-		<input type="text" name="" ref="ttt">
+		<input v-model="inputText" style="opacity: 0;" type="text" name="" id="hideInput" ref="hideInput">
+		<div class="audio">
+			<audio ref="audio_a">
+	            <source src="./asset/audio/letter/a.mp3"></source>
+	        </audio>
+	        <audio ref="audio_b">
+	            <source src="./asset/audio/letter/b.mp3"></source>
+	        </audio>
+	        <audio ref="audio_c">
+	            <source src="./asset/audio/letter/c.mp3"></source>
+	        </audio>
+	        <audio ref="audio_d">
+	            <source src="./asset/audio/letter/d.mp3"></source>
+	        </audio>
+	        <audio ref="audio_e">
+	            <source src="./asset/audio/letter/e.mp3"></source>
+	        </audio>
+	        <audio ref="audio_f">
+	            <source src="./asset/audio/letter/f.mp3"></source>
+	        </audio>
+	        <audio ref="audio_g">
+	            <source src="./asset/audio/letter/g.mp3"></source>
+	        </audio>
+	        <audio ref="audio_h">
+	            <source src="./asset/audio/letter/h.mp3"></source>
+	        </audio>
+	        <audio ref="audio_i">
+	            <source src="./asset/audio/letter/i.mp3"></source>
+	        </audio>
+	        <audio ref="audio_j">
+	            <source src="./asset/audio/letter/j.mp3"></source>
+	        </audio>
+	        <audio ref="audio_k">
+	            <source src="./asset/audio/letter/k.mp3"></source>
+	        </audio>
+	        <audio ref="audio_l">
+	            <source src="./asset/audio/letter/l.mp3"></source>
+	        </audio>
+	        <audio ref="audio_m">
+	            <source src="./asset/audio/letter/m.mp3"></source>
+	        </audio>
+	        <audio ref="audio_n">
+	            <source src="./asset/audio/letter/n.mp3"></source>
+	        </audio>
+	        <audio ref="audio_o">
+	            <source src="./asset/audio/letter/o.mp3"></source>
+	        </audio>
+	        <audio ref="audio_p">
+	            <source src="./asset/audio/letter/p.mp3"></source>
+	        </audio>
+	        <audio ref="audio_q">
+	            <source src="./asset/audio/letter/q.mp3"></source>
+	        </audio>
+	        <audio ref="audio_r">
+	            <source src="./asset/audio/letter/r.mp3"></source>
+	        </audio>
+	        <audio ref="audio_s">
+	            <source src="./asset/audio/letter/s.mp3"></source>
+	        </audio>
+	        <audio ref="audio_t">
+	            <source src="./asset/audio/letter/t.mp3"></source>
+	        </audio>
+	        <audio ref="audio_u">
+	            <source src="./asset/audio/letter/u.mp3"></source>
+	        </audio>
+	        <audio ref="audio_v">
+	            <source src="./asset/audio/letter/v.mp3"></source>
+	        </audio>
+	        <audio ref="audio_w">
+	            <source src="./asset/audio/letter/w.mp3"></source>
+	        </audio>
+	        <audio ref="audio_x">
+	            <source src="./asset/audio/letter/x.mp3"></source>
+	        </audio>
+	        <audio ref="audio_y">
+	            <source src="./asset/audio/letter/y.mp3"></source>
+	        </audio>
+	        <audio ref="audio_z">
+	            <source src="./asset/audio/letter/z.mp3"></source>
+	        </audio>
+		</div>
 	</div>
 
 	<div id="keyBoard">
@@ -262,6 +342,8 @@
 		var keyVal = [];
 		var keyMap = {};
 		var letters = ['q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j','k','l','z','x','c','v','b','n','m'];
+		var symbol = [' ','?','.',','];
+		var alias = ['space','slash','dot','comma'];
 		//显示所有按键字符
 		$.each($keyText,function(index) {
 			if($(this).attr('class') == 'st1') $(this).attr('class','st1 st2');
@@ -287,6 +369,7 @@
 		}
 		//设置预选样式
 		function pretreatment(letter) {
+			//if(letter == ' ') letter = 'space';
 			//判断是否为字母键
 			if(letters.indexOf(letter) >= 0){
 				if($keyText.eq(keyMap[letter]).attr('class') == 'st1 st2 b active'){
@@ -294,6 +377,15 @@
 				}else{
 					$keyText.eq(keyMap[letter]).attr('class', 'st1 st2 b active');
 				}
+			//符号有另一种显示方式
+			}else if(symbol.indexOf(letter) >= 0){
+				if($keyText.eq(keyMap[letter]).attr('class') == 'st1 st2 active'){
+					$keyText.eq(keyMap[letter]).attr('class', 'st1 st2');
+				}else{
+					$keyText.eq(keyMap[letter]).attr('class', 'st1 st2 active');
+				}
+
+				letter = alias[symbol.indexOf(letter)];
 			}else{
 				if($('#text-' + letter).attr('class') == 'st1 st2 s active'){
 					$('#text-' + letter).attr('class', 'st1 st2 s');
@@ -301,6 +393,7 @@
 					$('#text-' + letter).attr('class', 'st1 st2 s active');
 				}
 			}
+
 
 			if($('#' + letter).attr('class') == 'st0 active'){
 				$('#' + letter).attr('class', 'st0');
@@ -336,7 +429,7 @@
 							status:null,
 						},
 						{
-							letter:'',
+							letter:' ',
 							input:null,
 							status:null,
 						},
@@ -358,7 +451,7 @@
 							status:null,
 						},
 						{
-							letter:'',
+							letter:' ',
 							input:null,
 							status:null,
 						},
@@ -380,7 +473,7 @@
 							status:null,
 						},
 						{
-							letter:'',
+							letter:' ',
 							input:null,
 							status:null,
 						},
@@ -417,7 +510,7 @@
 							status:null,
 						},
 						{
-							letter:'',
+							letter:' ',
 							input:null,
 							status:null,
 						},
@@ -427,18 +520,38 @@
 				wordIndex:0,
 				inputIndex:0,
 				subscriptIndex:0,
+				inputText:'',
+				articleText:'what are you doing? ',
 			},
 			methods:{
 				correct:function() {
-					//每次key down 都将letterIndex偏移量自增，并判断是否超出word长度，若超出，则增加wordIndex偏移量
+					
 					//结束判断还有问题
-					if (this.letterIndex < this.article[this.wordIndex].length) {
-						return true;
-					}else{
-						this.wordIndex += 1;
+					if(this.letterIndex < 0 && this.wordIndex == 0){
+						this.wordIndex = 0;
 						this.letterIndex = 0;
 
-						return this.correct();
+						return true;
+					//删除操作会导致字母索引为负数，此时将索引指向上一个单词最后一个字母索引
+					}else if(this.letterIndex<0){
+						this.wordIndex -= 1;
+						this.letterIndex = this.article[this.wordIndex].length - 1;
+
+						return true;
+					}else{
+						//超出文章索引
+						if(this.wordIndex == this.article.length){
+							return false;
+						}
+						//每次key down 都将letterIndex偏移量自增，并判断是否超出word长度，若超出，则增加wordIndex偏移量
+						if (this.letterIndex < this.article[this.wordIndex].length) {
+							return true;
+						}else{
+							this.wordIndex += 1;
+							this.letterIndex = 0;
+
+							return this.correct();
+						}
 					}
 				},
 				moveSubscript:function(index) {
@@ -446,30 +559,58 @@
 					this.$refs.subscript.style.top = this.$refs.articleLetter[index].offsetTop - 25 + 'px';
 
 				},
-				imputKey:function(ev) {
-					console.log(ev.keyCode);
+				inputKey:function(newData, oldData) {
+					if(newData<oldData){
+						this.letterIndex -= 1;
+						this.inputIndex -= 1;
+					}
 					if(this.correct()){
-						this.moveSubscript(this.inputIndex + 1);
-						this.article[this.wordIndex][this.letterIndex].input = ev.keyCode;
+						//设置下标提示
+						this.moveSubscript(newData.length);
+						//设置按键提示
+						pretreatment(this.articleText[oldData.length]);
+						pretreatment(this.articleText[newData.length]);
 
+						//删除操作后撤销正确与错误提示
+						if(newData<oldData){
+							this.article[this.wordIndex][this.letterIndex].status = 0;
+						//输入字母正确性判断
+						}else if(this.article[this.wordIndex][this.letterIndex].letter == this.inputText[oldData.length]){
+							this.article[this.wordIndex][this.letterIndex].status = 1;
+						}else{
+							this.article[this.wordIndex][this.letterIndex].status = -1;
+						}
 					}else{
 						console.log('error:单词下标偏移');
 					}
-					this.letterIndex += 1;
-					this.inputIndex += 1;
+
+					//判断输入是否为删除操作
+					if(newData>oldData){
+						this.letterIndex += 1;
+						this.inputIndex += 1;
+					}	
 				},
+				paly:function() {
+					if(letters.indexOf(this.article[this.wordIndex][this.letterIndex-1].letter) >= 0){
+						console.log(this.article[this.wordIndex][this.letterIndex]);
+						this.$refs['audio_' + this.article[this.wordIndex][this.letterIndex-1].letter].play();
+					}
+					
+				}
+			},
+			watch:{
+				inputText:function(newData, oldData) {
+					this.inputKey(newData, oldData);
+					this.paly();
+				}
 			},
 			mounted:function() {
-				
-				var vue = this;
-				window.onkeydown = function(ev){
-			        vue.imputKey(ev);
+				pretreatment(this.articleText[0]);
+			    $('#hideInput').focus();
+			    window.onclick = function() {
+		    		$('#hideInput').focus();
 			    }
 
-			    window.onfocus = function() {
-			    	vue.$refs.ttt.focus();
-			    	console.log('Document get focus');
-			    }
 			},
 		});
 	</script>
