@@ -47,111 +47,17 @@
 			display: block;
 			width: 21px;
 			height: 71px;
-			margin-top: 69px;
-			margin-left: 281px;
 			border-bottom: 3px solid #0a6bf9;
 		}
 	</style>
 </head>
 <body>
 	<div class="article" id="app">
-		<span id="subscript"></span>
+		<span id="subscript" ref="subscript"></span>
 		<div class="words" v-for="item in article">
-			<span class="letter" v-for="val in item">{{val.letter}}</span>
+			<span class="letter" v-for="val in item" ref="articleLetter">{{val.letter}}</span>
 		</div>
-		<!-- <div class="words">
-			<span class="letter token_unit_err">w</span>
-			<span class="letter token_unit_err">h</span>
-			<span class="letter token_unit_val">a</span>
-			<span class="letter token_unit_val">t</span>
-			<span class="letter token_unit_val"></span>
-		</div>
-		<div class="words">
-			<span class="letter">a</span>
-			<span class="letter">r</span>
-			<span class="letter">e</span>
-			<span class="letter"></span>
-		</div>
-		<div class="words">
-			<span class="letter">y</span>
-			<span class="letter">o</span>
-			<span class="letter">u</span>
-			<span class="letter"></span>
-		</div>
-		<div class="words">
-			<span class="letter">d</span>
-			<span class="letter">o</span>
-			<span class="letter">i</span>
-			<span class="letter">n</span>
-			<span class="letter">g</span>
-			<span class="letter">?</span>
-			<span class="letter"></span>
-		</div>
-
-
-		<div class="words">
-			<span class="letter">a</span>
-			<span class="letter">r</span>
-			<span class="letter">e</span>
-			<span class="letter"></span>
-		</div>
-		<div class="words">
-			<span class="letter">y</span>
-			<span class="letter">o</span>
-			<span class="letter">u</span>
-			<span class="letter"></span>
-		</div>
-		<div class="words">
-			<span class="letter">d</span>
-			<span class="letter">o</span>
-			<span class="letter">i</span>
-			<span class="letter">n</span>
-			<span class="letter">g</span>
-			<span class="letter">?</span>
-			<span class="letter"></span>
-		</div>
-		<div class="words">
-			<span class="letter">a</span>
-			<span class="letter">r</span>
-			<span class="letter">e</span>
-			<span class="letter"></span>
-		</div>
-		<div class="words">
-			<span class="letter">y</span>
-			<span class="letter">o</span>
-			<span class="letter">u</span>
-			<span class="letter"></span>
-		</div>
-		<div class="words">
-			<span class="letter">d</span>
-			<span class="letter">o</span>
-			<span class="letter">i</span>
-			<span class="letter">n</span>
-			<span class="letter">g</span>
-			<span class="letter">?</span>
-			<span class="letter"></span>
-		</div>
-		<div class="words">
-			<span class="letter">a</span>
-			<span class="letter">r</span>
-			<span class="letter">e</span>
-			<span class="letter"></span>
-		</div>
-		<div class="words">
-			<span class="letter">y</span>
-			<span class="letter">o</span>
-			<span class="letter">u</span>
-			<span class="letter"></span>
-		</div>
-		<div class="words">
-			<span class="letter">d</span>
-			<span class="letter">o</span>
-			<span class="letter">i</span>
-			<span class="letter">n</span>
-			<span class="letter">g</span>
-			<span class="letter">?</span>
-			<span class="letter"></span>
-		</div> -->
+		<input type="text" name="" ref="ttt">
 	</div>
 
 	<div id="keyBoard">
@@ -519,6 +425,8 @@
 				],
 				letterIndex:0,
 				wordIndex:0,
+				inputIndex:0,
+				subscriptIndex:0,
 			},
 			methods:{
 				correct:function() {
@@ -533,21 +441,34 @@
 						return this.correct();
 					}
 				},
+				moveSubscript:function(index) {
+					this.$refs.subscript.style.left = this.$refs.articleLetter[index].offsetLeft + 'px';
+					this.$refs.subscript.style.top = this.$refs.articleLetter[index].offsetTop - 25 + 'px';
+
+				},
 				imputKey:function(ev) {
 					console.log(ev.keyCode);
 					if(this.correct()){
-						console.log(this.wordIndex,this.letterIndex,this.article[this.wordIndex][this.letterIndex]);
+						this.moveSubscript(this.inputIndex + 1);
 						this.article[this.wordIndex][this.letterIndex].input = ev.keyCode;
+
 					}else{
 						console.log('error:单词下标偏移');
 					}
 					this.letterIndex += 1;
+					this.inputIndex += 1;
 				},
 			},
 			mounted:function() {
+				
 				var vue = this;
 				window.onkeydown = function(ev){
 			        vue.imputKey(ev);
+			    }
+
+			    window.onfocus = function() {
+			    	vue.$refs.ttt.focus();
+			    	console.log('Document get focus');
 			    }
 			},
 		});
